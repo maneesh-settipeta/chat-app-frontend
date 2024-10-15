@@ -27,6 +27,7 @@ export default function Header() {
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
     localStorage.removeItem("email");
+    localStorage.removeItem("user_uuid");
   }
 
   

@@ -10,21 +10,26 @@ import { useContext, useState, useEffect } from "react";
 
 const SendMessage = () => {
     const { selectedUser , user } = useContext(ChatContext)
-
+    
+    console.log(user);
+    console.log(selectedUser);
+    
+    
     const [message, setMessage] = useState("");
 
     const handleSendMessage = () => {   
         console.log("17");
         socket.emit('sendMessage', {
-            logged_in_user_uuid: user.user_uuid,
-            receiver_uuid: selectedUser,
+            logged_in_user_uuid: user.user_uuid ,
+            receiver_uuid: selectedUser.user_uuid,
             message: message,
         })
         setMessage("");
     }
+
     return (
-        <Box sx={{ display: 'flex' }}>
-            <Box sx={{ borderRight: '2px solid #ccc', }}>
+        <Box sx={{ display: 'flex' , height:'80vh'}}>
+            <Box sx={{ borderRight: '2px solid #ccc', overflowY:'auto',height: '100%'}}>
                 <UserChats></UserChats>
             </Box>
             <Box>

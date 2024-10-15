@@ -6,7 +6,10 @@ import ChatContext from "../Store/ChatContext.tsx";
 
 const Chats = () => {
     const [messages, setMessages] = useState([]);
-    const {user} = useContext(ChatContext)
+    const {user, selectedUser} = useContext(ChatContext)
+
+    console.log(messages);
+    
 
     useEffect(() => {
         socket.on('receiveMessage', (data) => {
@@ -18,6 +21,7 @@ const Chats = () => {
         return () => {
             socket.off('receiveMessage');
         };
+    
     }, []);
 
     return (
@@ -27,7 +31,7 @@ const Chats = () => {
                     key={index}
                     sx={{
                         display: 'flex',
-                        justifyContent: msg.logged_in_user_uuid === user.user_uuid ? 'flex-end' : 'flex-start',
+                        justifyContent: msg.logged_in_user_uuid === user.user_uuid ?  'flex-end' :'flex-start',
                     }}
                 >
                     <Typography

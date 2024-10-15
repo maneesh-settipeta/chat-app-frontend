@@ -1,13 +1,14 @@
 import { Paper, TextField, Typography, Grid2, Button, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, resolvePath } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ChatContext from "../Store/ChatContext";
 import { useContext } from "react";
 
+
 const Login = () => {
-    const {addUser, addUsers} = useContext(ChatContext);
+    const { addUser, addUsers } = useContext(ChatContext);
 
     const navigate = useNavigate();
 
@@ -15,22 +16,29 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
-
         try {
-            const response = await axios.post("http://localhost:3000/login", { email: email, pass: password });
-            if (response.data.user.email===email){        
-                addUser(response.data.user);
-                try {
-                    const getUsersDetails = await axios.get("http://localhost:3000/getUsers");
-                    addUsers(getUsersDetails.data.data);
-                } catch (error) {
-                    console.error("Error while fetching users" , error);                  
-                }
-                navigate('/home');
-
+            const response = await axios.post("http://localhost:3000/login", { email: email, userpassword: password });
+            console.log(response);
+            
+           if (response.status===202){
+            addUser(response.data.data);
+            console.log(response.data.data);
+            
+            console.log(response.data.user);
+            try {
+                const getUsersDetails = await axios.get("http://localhost:3000/getUsers");
+                addUsers(getUsersDetails.data.data);
+            } catch (error) {
+                console.error("Error while fetching users", error);
             }
-        } catch (error) {
-            console.error(Error, "Error while saving data");       
+            navigate('/home');
+           }
+           if (response.status===401){
+            alert("Invalid Creditianls");
+           }
+           
+        }catch (error) {
+            console.error(Error, "Error while saving data");
         }
     }
     return (

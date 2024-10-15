@@ -11,13 +11,18 @@ handleSelectedUser :()=>{},
 
 const handleStateAndData = (state, action) => {
     if (action.type === "ADD-USER") {
-        localStorage.setItem("firstName",action.userDetails.first_name );
-        localStorage.setItem("lastName",action.userDetails.last_name );
-        localStorage.setItem("email",action.userDetails.email);
+        // console.log(action.userDetails); 
+        localStorage.setItem("firstName",action.userDetails?.first_name );
+        localStorage.setItem("lastName",action.userDetails?.last_name );
+        localStorage.setItem("email",action.userDetails?.email);
+        localStorage.setItem("user_uuid" , action.userDetails?.user_uuid);
         return {
             ...state,
-            user: {
-                userUuid: action.userDetails.user_uuid,
+            user:{
+                firstName: action.userDetails?.first_name ,
+            lastName: action.userDetails?.last_name,
+            email: action.userDetails?.email,
+            user_uuid:  action.userDetails?.user_uuid,
             }
         }
     }
@@ -44,19 +49,22 @@ const handleStateAndData = (state, action) => {
 export function ProjectContext({ children }) {
     const [projectState, projectDispatchFunction] = useReducer(handleStateAndData, {
         user: {
-            firstName: localStorage.getItem("firstName"),
-            lastName: localStorage.getItem("lastName"),
-            email: localStorage.getItem("email"),
-            userUuid: null,
+            firstName: null,
+            lastName:null,
+            email: null,
+            user_uuid:null,
         },
         users:null,
         selectedUser:null,
     })
-console.log(projectState.selectedUser);
 
+    console.log(projectState.selectedUser);
+    console.log(projectState.user);
     
 
     const addUser = (userData) => {
+        console.log(userData);
+        
         projectDispatchFunction({
             type: "ADD-USER",
             userDetails: userData

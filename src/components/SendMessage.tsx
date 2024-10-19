@@ -11,16 +11,12 @@ import { useContext, useState, useEffect } from "react";
 const SendMessage = () => {
     const { selectedUser , user } = useContext(ChatContext)
     
-    console.log(user);
-    console.log(selectedUser);
-    
-    
     const [message, setMessage] = useState("");
 
     const handleSendMessage = () => {   
         console.log("17");
         socket.emit('sendMessage', {
-            logged_in_user_uuid: user.user_uuid ,
+            logged_in_user_uuid: localStorage.getItem('user_uuid'),
             receiver_uuid: selectedUser.user_uuid,
             message: message,
         })

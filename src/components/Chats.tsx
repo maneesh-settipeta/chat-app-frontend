@@ -6,23 +6,27 @@ import ChatContext from "../Store/ChatContext.tsx";
 
 const Chats = () => {
     const [messages, setMessages] = useState([]);
-    const {user, selectedUser} = useContext(ChatContext)
+
+    const { user, selectedUser } = useContext(ChatContext);
 
     console.log(messages);
+    console.log(selectedUser);
     
 
     useEffect(() => {
         socket.on('receiveMessage', (data) => {
+            console.log("Recieing mess");
+            
             setMessages((prevMessages) => [
                 ...prevMessages,
-                         data,
+                data,
             ]);
         });
         return () => {
             socket.off('receiveMessage');
         };
-    
-    }, []);
+
+    }, [socket]);
 
     return (
         <div>
@@ -31,9 +35,10 @@ const Chats = () => {
                     key={index}
                     sx={{
                         display: 'flex',
-                        justifyContent: msg.logged_in_user_uuid === user.user_uuid ?  'flex-end' :'flex-start',
+                        justifyContent: msg.logged_in_user_uuid === user.user_uuid ? 'flex-end' : 'flex-start',
                     }}
                 >
+                    {/* {msg.logged_in_user_uuid === selectedUser.user_uuid ?  */}
                     <Typography
                         variant="h6"
                         sx={{
@@ -46,6 +51,7 @@ const Chats = () => {
                     >
                         {msg.message}
                     </Typography>
+                     {/* : null} */}
                 </Box>
             ))}
         </div>

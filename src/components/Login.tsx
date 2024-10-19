@@ -11,35 +11,47 @@ const Login = () => {
     const { addUser, addUsers } = useContext(ChatContext);
 
     const navigate = useNavigate();
-
+    const [errors, setErrors] = useState({
+        isError: false,
+        errorMessage: null,
+    })
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
         try {
             const response = await axios.post("http://localhost:3000/login", { email: email, userpassword: password });
-            console.log(response);
-            
-           if (response.status===202){
-            addUser(response.data.data);
-            console.log(response.data.data);
-            
-            console.log(response.data.user);
-            try {
+            if (response.status === 202) {
+                addUser(response.data.data);
                 const getUsersDetails = await axios.get("http://localhost:3000/getUsers");
                 addUsers(getUsersDetails.data.data);
-            } catch (error) {
-                console.error("Error while fetching users", error);
+                navigate('/home');
+
             }
-            navigate('/home');
-           }
-           if (response.status===401){
-            alert("Invalid Creditianls");
-           }
-           
-        }catch (error) {
-            console.error(Error, "Error while saving data");
+        } catch (error) {
+            if (error.response.status === 401) {
+                setErrors({
+                    isError: true,
+                    errorMessage: "Invalid Credentials",
+                });
+            } if (error.response.status===404) {         
+                setErrors({
+                    isError: true,
+                    errorMessage: "User not found",
+                });
+            }
+            else{
+                setErrors({
+                    isError: true,
+                    errorMessage: error.response.data.msg || "Network Error",
+                });
+            }
         }
+
+
+
+
+
     }
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,6 +66,7 @@ const Login = () => {
                         value={email} onChange={(e) => setEmail(e.target.value)}></TextField >
                     <TextField variant="outlined" label="Password" type="password" placeholder="Please Enter Your Password" fullWidth required sx={{ margin: '8px' }} value={password} onChange={(e) => setPassword(e.target.value)}></TextField>
                 </Grid2>
+                {errors.isError === true ? <h1>{errors.errorMessage}</h1> : null}
                 <Button type="submit" variant="contained" fullWidth color="primary" sx={{ margin: '8px' }} onClick={handleLogin}>Sign In</Button>
                 <Typography sx={{ margin: '8px' }} >
                     <Link to='/forgotPassword'>

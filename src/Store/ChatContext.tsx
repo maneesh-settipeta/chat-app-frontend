@@ -11,7 +11,6 @@ handleSelectedUser :()=>{},
 
 const handleStateAndData = (state, action) => {
     if (action.type === "ADD-USER") {
-        // console.log(action.userDetails); 
         localStorage.setItem("firstName",action.userDetails?.first_name );
         localStorage.setItem("lastName",action.userDetails?.last_name );
         localStorage.setItem("email",action.userDetails?.email);
@@ -58,13 +57,9 @@ export function ProjectContext({ children }) {
         selectedUser:null,
     })
 
-    console.log(projectState.selectedUser);
-    console.log(projectState.user);
-    
 
-    const addUser = (userData) => {
-        console.log(userData);
-        
+
+    const addUser = (userData) => {        
         projectDispatchFunction({
             type: "ADD-USER",
             userDetails: userData

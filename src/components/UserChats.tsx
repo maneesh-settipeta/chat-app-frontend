@@ -16,16 +16,14 @@ const UserChats = () => {
             console.error("Error While Fetching Data", error);
         }
     }
+    
     getUsersData();
     },[])
 
-
     const handleSelectUser = (user_uuid) => {
         const findUserName = users.find(user => user.user_uuid === user_uuid);
-
         handleSelectedUser(findUserName);
         console.log(user_uuid);
-        
         socket.emit('joinChat', user_uuid);
     }
 

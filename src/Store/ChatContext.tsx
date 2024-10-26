@@ -3,10 +3,12 @@ import { createContext, useReducer } from "react";
 export const ChatContext = createContext({
 user:{},
 users:null,
+isMessage:false,
 selectedUser:null,
 addUser:()=>{},
 addUsers:()=>{},
 handleSelectedUser :()=>{},
+saveMessages:()=>{},
 });
 
 const handleStateAndData = (state, action) => {
@@ -25,6 +27,7 @@ const handleStateAndData = (state, action) => {
             }
         }
     }
+
     if (action.type==="ADD-USERS"){
       return{
         ...state,
@@ -35,6 +38,12 @@ const handleStateAndData = (state, action) => {
         return{
             ...state,
             selectedUser:action.userSelected,
+        }
+    }
+    if (action.type==="IS-MESSAGE"){
+        return{
+            ...state,
+            isMessage:action.messagesData,
         }
     }
 
@@ -55,8 +64,10 @@ export function ProjectContext({ children }) {
         },
         users:null,
         selectedUser:null,
+        isMessage:false,
     })
 
+    console.log(projectState.isMessage);
 
 
     const addUser = (userData) => {        
@@ -79,13 +90,22 @@ export function ProjectContext({ children }) {
             userSelected:user_uuid,
         })
     }
+
+    const saveMessages = () =>{
+        projectDispatchFunction({
+            type:"IS-MESSAGE",
+            messagesData:true
+        })
+    }
     const projectData = {
         user: projectState.user,
         users:projectState.users,
         selectedUser:projectState.selectedUser,
+        isMessage:projectState.isMessage,
         addUser,
         addUsers,
         handleSelectedUser,
+        saveMessages,
     }
 
     return (

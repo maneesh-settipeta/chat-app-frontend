@@ -5,7 +5,9 @@ import { socket} from '../../socket.ts';
 import axios from "axios";
 
 const UserChats = () => {
-    const { users, handleSelectedUser, addUsers } = useContext(ChatContext);
+    const { users, handleSelectedUser, addUsers, saveMessages } = useContext(ChatContext);
+ 
+    const logged_in_user_uuid = localStorage.getItem("user_uuid");
 
     useEffect(()=>{
     const getUsersData =async()=>{
@@ -15,30 +17,25 @@ const UserChats = () => {
         } catch (error) {
             console.error("Error While Fetching Data", error);
         }
-    }
-    
+    }  
     getUsersData();
     },[])
 
-    const handleSelectUser = (user_uuid) => {
-        const findUserName = users.find(user => user.user_uuid === user_uuid);
+    const handleSelectUser = async(receiver_uuid) => {
+        saveMessages(true);
+        const findUserName = users.find(user => user.user_uuid === receiver_uuid);
         handleSelectedUser(findUserName);
-        console.log(user_uuid);
-        socket.emit('joinChat', user_uuid);
+        socket.emit('joinChat', receiver_uuid ,logged_in_user_uuid );
     }
 
     return (
         <>
             {users?.map((eachUser) => (
                 <Grid2 onClick={() => handleSelectUser(eachUser.user_uuid)} sx={{
-                    paddingBottom: '10px',
+                    padding: '5px',
                     backgroundColor: '#ececec',
-                    borderRadius: '8px',
-                    marginRight: '3px',
-                    paddingLeft: '4px',
-                    paddingTop: '2px',
                     marginBottom: '4px',
-                    width: '25vw'
+                    marginTop:'4px',
                 }} key={eachUser.id}>
                     <p >
                         {eachUser.first_name} {eachUser.last_name}

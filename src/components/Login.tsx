@@ -20,10 +20,15 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/login", { email: email, userpassword: password });
+            const response = await axios.post(`http://localhost:5000/login`,
+                { email: email, userpassword: password }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             if (response.status === 202) {
                 addUser(response.data.data);
-                const getUsersDetails = await axios.get("http://localhost:3000/getUsers");
+                const getUsersDetails = await axios.get(`${import.meta.env.VITE_BaseURL}getUsers`);
                 addUsers(getUsersDetails.data.data);
                 navigate('/home');
 
@@ -34,13 +39,13 @@ const Login = () => {
                     isError: true,
                     errorMessage: "Invalid Credentials",
                 });
-            } if (error.response.status===404) {         
+            } if (error.response.status === 404) {
                 setErrors({
                     isError: true,
                     errorMessage: "User not found",
                 });
             }
-            else{
+            else {
                 setErrors({
                     isError: true,
                     errorMessage: error.response.data.msg || "Network Error",
@@ -67,13 +72,20 @@ const Login = () => {
                     <TextField variant="outlined" label="Password" type="password" placeholder="Please Enter Your Password" fullWidth required sx={{ margin: '8px' }} value={password} onChange={(e) => setPassword(e.target.value)}></TextField>
                 </Grid2>
                 {errors.isError === true ? <h1>{errors.errorMessage}</h1> : null}
-                <Button type="submit" variant="contained" fullWidth color="primary" sx={{ margin: '8px' }} onClick={handleLogin}>Sign In</Button>
+                <Button type="submit" variant="contained" fullWidth sx={{
+
+                    margin: '8px',
+                    bgcolor: '#90EE90',
+
+                    '&:hover': { bgcolor: '#81D48D' },
+                    color: '#000',
+                }} onClick={handleLogin}>Sign In</Button>
                 <Typography sx={{ margin: '8px' }} >
                     <Link to='/forgotPassword'>
                         Forgot Password?
                     </Link>
                 </Typography>
-                <Typography sx={{ margin: '8px' }}>Don't have an  Account? <Link to='/signUp' >Sign up</Link></Typography>
+                <Typography sx={{ margin: '8px', }}>Don't have an  Account? <Link to='/signUp' >Sign up</Link></Typography>
             </Paper>
         </Box>
     )

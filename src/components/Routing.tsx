@@ -7,33 +7,32 @@ import Home from "./Home"
 
 const RoutingComponent = createBrowserRouter([
     {
-        path:'/',
-        element:<Navigate to ='/login'/>
+        path: '/',
+        element: <Navigate to='/login' />
     },
     {
-        path:'/login',
-        element:<Login/>
+        path: '/login',
+        element: <Login />
     },
     {
-        path:'/signUp',
-        element:<SignUp/>
+        path: '/signUp',
+        element: <SignUp />
     },
-
     {
-        path:'/home',
-        element:<Home/>,
-        children:[
+        path: '/home',
+        element: <Home />,
+        children: [
             {
-                path:"",
-                element:<SendMessage/>
+                path: "",
+                element: <SendMessage />
             }
         ]
     }
 ])
 
-const Routing  = () =>{
-return(
-    <RouterProvider router={RoutingComponent}></RouterProvider>
-)
+const Routing = () => {
+    return (
+        <RouterProvider router={RoutingComponent}></RouterProvider>
+    )
 }
 export default Routing

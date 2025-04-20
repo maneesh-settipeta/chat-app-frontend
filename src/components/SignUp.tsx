@@ -10,24 +10,24 @@ const SignUp = () => {
     const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors]= useState({
-        signUpError:null,
-        signUpErrorMessage:null,
+    const [errors, setErrors] = useState({
+        signUpError: null,
+        signUpErrorMessage: null,
     })
 
     const navigate = useNavigate();
 
     const handleSignUp = async () => {
-        try {        
-            const response = await axios.post("http://localhost:3000/signUp", { firstName:firstname, lastName:lastname, email: email, password: password }); 
-            if (response.status===409){
-                setErrors((prevState)=>({
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BaseURL}signUp`, { firstName: firstname, lastName: lastname, email: email, password: password });
+            if (response.status === 409) {
+                setErrors((prevState) => ({
                     ...prevState,
-                    signUpError:true,
-                    signUpErrorMessage:response.data.msg,
+                    signUpError: true,
+                    signUpErrorMessage: response.data.msg,
                 }));
             }
-            if (response.status===201){
+            if (response.status === 201) {
                 navigate('/login')
             }
 
@@ -50,7 +50,7 @@ const SignUp = () => {
                     <TextField variant="outlined" label="Email" placeholder="Please Enter Your Email" fullWidth required sx={{ margin: '8px' }}
                         value={email} onChange={(e) => setEmail(e.target.value)}></TextField >
                     <TextField variant="outlined" label="Password" type="password" placeholder="Please Enter Your password" fullWidth required sx={{ margin: '8px' }} value={password} onChange={(e) => setPassword(e.target.value)}></TextField>
-                  {errors.signUpError?<p>{errors.signUpErrorMessage}</p>: null}  
+                    {errors.signUpError ? <p>{errors.signUpErrorMessage}</p> : null}
                 </Grid2>
                 <Button type="submit" variant="contained" fullWidth color="primary" sx={{ margin: '8px' }} onClick={handleSignUp}>Sign up</Button>
                 <Typography sx={{ margin: '8px' }}>Already  have an  Account? <Link to='/login' >Sign In</Link></Typography>

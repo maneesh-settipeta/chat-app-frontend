@@ -15,9 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 const SendMessage = () => {
     const { selectedUser } = useContext(ChatContext)
-
     const [message, setMessage] = useState("");
-
     const messagesEndRef = useRef(null);
     const theme = createTheme({
         palette: {
@@ -65,13 +63,14 @@ const SendMessage = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <Box sx={{ borderRight: '2px solid #ccc', overflowY: 'auto', height: '87vh', width: '25%' }}>
+            <Box sx={{ borderRight: '2px solid #ccc', overflowY: 'auto', height: '90vh', width: '25%', }}>
                 <UserChats></UserChats>
             </Box>
             <Box component="section" sx={{
                 height: '60vh',
                 display: 'flex-col',
-                width: '75%'
+                width: '75%',
+
             }}>
                 <Box sx={{
                     flexGrow: 1,
@@ -87,7 +86,7 @@ const SendMessage = () => {
                         </Toolbar>
                     </AppBar>
                     <ThemeProvider theme={theme}>
-                        <Box sx={{ flexGrow: 1, padding: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', backgroundColor: "background.default", height: '71vh', }}>
+                        <Box sx={{ flexGrow: 1, padding: 1, display: 'flex', flexDirection: 'column', backgroundColor: "background.default", height: '71vh', }}>
                             <Chats></Chats>
                             <div ref={messagesEndRef} />
                         </Box>
@@ -109,10 +108,16 @@ const SendMessage = () => {
                             width: '95%'
                         }}
                         placeholder="Type a message..."
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSendMessage();
+                            }
+                        }}
                     />
-
                     <IconButton color='blue' style={{ marginLeft: '8px' }}
-                        onClick={handleSendMessage}>
+                        onClick={handleSendMessage}
+                    >
                         <SendIcon />
                     </IconButton>
                 </Box>

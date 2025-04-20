@@ -6,34 +6,33 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useContext, useEffect } from 'react';
-import ChatContext from '../Store/ChatContext';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
 
-  const {user } = useContext(ChatContext);
 
+  const navigate = useNavigate();
 
- const navigate = useNavigate();
-  const firstName =localStorage.getItem("firstName");
-  const lastName= localStorage.getItem("lastName");
-
-  const firstNameExtract = user?.firstName ? user?.firstName[0] : "";
-  const secondNameExtract = user?.lastName ? user?.lastName[0] : "";
-
-  const handleLogout = () =>{
+  const handleLogout = () => {
     navigate('/login');
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
     localStorage.removeItem("email");
     localStorage.removeItem("user_uuid");
   }
+  const [fullName, setName] = useState('')
 
-  
+  useEffect(() => {
+    const firstName = localStorage.getItem("firstName");
+    const lastName = localStorage.getItem("lastName");
+    setName(firstName?.[0] + "" + lastName?.[0])
+    console.log(" FUll name ", firstName[0] + "" + lastName[0]);
+
+  }, [])
   return (
-    <Box  width='95vw' sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={0}  style={{ backgroundColor: '#00A36C', color: 'white' }}>
+    <Box width='screen' height='screen' sx={{ flexGrow: 1 }}>
+      <AppBar position="static" elevation={0} style={{ backgroundColor: '#00A36C', color: 'white' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -42,22 +41,22 @@ export default function Header() {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-               <MenuIcon />
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Chats
           </Typography>
           <Button color="inherit" sx={{
-             backgroundColor: '#f5f5f5', 
-             color: '#000',              
-             fontWeight: 'bold',        
-             borderRadius: '50%',        
-             width: 10,               
-             height: 40,                 
-             '&:hover': {              
-               backgroundColor: '#e0e0e0',
-             }
-          }}> {firstName[0] +""+lastName[0]}</Button>
+            backgroundColor: '#f5f5f5',
+            color: '#000',
+            fontWeight: 'bold',
+            borderRadius: '50%',
+            width: 10,
+            height: 40,
+            '&:hover': {
+              backgroundColor: '#e0e0e0',
+            }
+          }}> {fullName}</Button>
           <Button color="inherit" onClick={handleLogout}> Logout</Button>
         </Toolbar>
       </AppBar>

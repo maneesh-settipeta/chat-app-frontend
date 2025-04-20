@@ -6,7 +6,7 @@ const Home = () => {
 
     return (
         <Box
-            sx={{ height: '95vh', width: '95vw', border: '2px solid #ccc', display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: 'auto' }}
+            sx={{ height: 'screen', width: 'screen', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}
         >
             <div >
                 <Header />

@@ -43,7 +43,7 @@ const ChatApp = () => {
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        backgroundColor: 'background.default', // Using the background color from the theme
+        backgroundColor: 'background.default',
         padding: 2
       }}>
         <Box sx={{ flexGrow: 1, overflowY: 'auto' }}>

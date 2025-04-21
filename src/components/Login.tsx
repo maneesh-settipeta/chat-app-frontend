@@ -41,7 +41,7 @@ const Login = () => {
     const handleLogin = async () => {
         try {
             const response = await axios.post<LoginResponse>(
-                `http://localhost:5000/login`,
+                `${import.meta.env.VITE_BaseURL}login`,
                 { email: email, userpassword: password },
                 {
                     headers: {

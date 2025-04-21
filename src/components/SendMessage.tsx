@@ -32,10 +32,6 @@ const SendMessage = () => {
             secondary: {
                 main: '#25d366', // WhatsApp's green accent (e.g., send button)
             },
-            chatBubble: {
-                sent: '#dcf8c6', // Light green for sent messages
-                received: '#ffffff', // White for received messages
-            },
         },
         typography: {
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

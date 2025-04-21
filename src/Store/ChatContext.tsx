@@ -52,6 +52,7 @@ export const ChatContext = createContext<ChatContextType>({
     saveMessages: () => { },
 });
 
+
 // Reducer function with proper typing
 const handleStateAndData = (state: StateType, action: ActionType): StateType => {
     switch (action.type) {
@@ -112,6 +113,9 @@ export function ProjectContext({ children }: ProjectContextProps) {
         selectedUser: null,
         isMessage: false,
     });
+
+    console.log(projectState.user);
+
 
     const addUser = (userData: User) => {
         projectDispatchFunction({

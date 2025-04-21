@@ -1,4 +1,3 @@
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,12 +6,15 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import ChatContext from '../Store/ChatContext';
 
 export default function Header() {
-
-
   const navigate = useNavigate();
+  const { user } = useContext(ChatContext); // Access user details from context
+  const [fullName, setFullName] = useState<string>('');
+  console.log(fullName);
+
 
   const handleLogout = () => {
     navigate('/login');
@@ -20,18 +22,16 @@ export default function Header() {
     localStorage.removeItem("lastName");
     localStorage.removeItem("email");
     localStorage.removeItem("user_uuid");
-  }
-  const [fullName, setName] = useState('')
+  };
 
   useEffect(() => {
-    const firstName = localStorage.getItem("firstName");
-    const lastName = localStorage.getItem("lastName");
-    setName(firstName?.[0] + "" + lastName?.[0])
-    console.log(" FUll name ", firstName[0] + "" + lastName[0]);
+    if (user.firstName && user.lastName) {
+      setFullName(`${user.firstName[0]}${user.lastName[0]}`); // Set initials from context
+    }
+  }, [user]);
 
-  }, [])
   return (
-    <Box width='screen' height='screen' sx={{ flexGrow: 1 }}>
+    <Box width="screen" height="screen" sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation={0} style={{ backgroundColor: '#00A36C', color: 'white' }}>
         <Toolbar>
           <IconButton
@@ -46,21 +46,27 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Chats
           </Typography>
-          <Button color="inherit" sx={{
-            backgroundColor: '#f5f5f5',
-            color: '#000',
-            fontWeight: 'bold',
-            borderRadius: '50%',
-            width: 10,
-            height: 40,
-            '&:hover': {
-              backgroundColor: '#e0e0e0',
-            }
-          }}> {fullName}</Button>
-          <Button color="inherit" onClick={handleLogout}> Logout</Button>
+          <Button
+            color="inherit"
+            sx={{
+              backgroundColor: '#f5f5f5',
+              color: '#000',
+              fontWeight: 'bold',
+              borderRadius: '50%',
+              width: 10,
+              height: 40,
+              '&:hover': {
+                backgroundColor: '#e0e0e0',
+              },
+            }}
+          >
+            {fullName}
+          </Button>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
   );
 }
-

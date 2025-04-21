@@ -5,21 +5,17 @@ import { socket } from '../../socket';
 import axios from "axios";
 
 interface User {
-    id: string;
-    user_uuid: string;
-    first_name: string;
-    last_name: string;
-    email: string;
+    id: string | null;
+    user_uuid: string | null;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
+
+
 }
 
 const UserChats = () => {
-    const { users, handleSelectedUser, addUsers, saveMessages } = useContext(ChatContext) as {
-        users: User[] | null;
-        handleSelectedUser: (user: User | null) => void;
-        addUsers: (users: User[]) => void;
-        saveMessages: (isMessage: boolean) => void;
-    };
-
+    const { users, handleSelectedUser, addUsers, saveMessages } = useContext(ChatContext);
     const logged_in_user_uuid = localStorage.getItem("user_uuid");
 
     useEffect(() => {
@@ -32,10 +28,10 @@ const UserChats = () => {
             }
         };
         getUsersData();
-    }, [addUsers]);
+    }, []);
 
     const handleSelectUser = async (receiver_uuid: string) => {
-        saveMessages(true);
+        saveMessages();
         const findUserName = users?.find(user => user.user_uuid === receiver_uuid) || null;
         handleSelectedUser(findUserName);
         socket.emit('joinChat', receiver_uuid, logged_in_user_uuid);
@@ -45,17 +41,17 @@ const UserChats = () => {
         <>
             {users?.map((eachUser) => (
                 <Grid2
-                    onClick={() => handleSelectUser(eachUser.user_uuid)}
+                    onClick={() => eachUser.user_uuid && handleSelectUser(eachUser.user_uuid)}
                     sx={{
                         padding: '5px',
                         marginTop: '2px',
                         backgroundColor: '#ececec',
                         cursor: 'pointer',
                     }}
-                    key={eachUser.id}
+                    key={eachUser.user_uuid}
                 >
                     <p>
-                        {eachUser.first_name} {eachUser.last_name}
+                        {eachUser.firstName} {eachUser.lastName}
                     </p>
                 </Grid2>
             ))}

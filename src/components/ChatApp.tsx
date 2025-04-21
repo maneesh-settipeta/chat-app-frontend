@@ -1,4 +1,3 @@
-import React from 'react';
 import { createTheme, ThemeProvider, Box, Typography, Avatar, TextField, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -14,10 +13,10 @@ const theme = createTheme({
     secondary: {
       main: '#25d366', // WhatsApp's green accent (e.g., send button)
     },
-    chatBubble: {
-      sent: '#dcf8c6', // Light green for sent messages
-      received: '#ffffff', // White for received messages
-    },
+    // chatBubble: {
+    //   sent: '#dcf8c6', // Light green for sent messages
+    //   received: '#ffffff', // White for received messages
+    // },
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

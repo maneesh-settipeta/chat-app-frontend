@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 interface SignUpResponse {
     status: number;
-    data: {
-        msg: string;
-    };
+    msg: string;
 }
 
 const SignUp = () => {

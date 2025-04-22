@@ -7,8 +7,8 @@ import axios from "axios";
 interface User {
     id: string | null;
     user_uuid: string | null;
-    firstName: string | null;
-    lastName: string | null;
+    first_name: string | null;
+    last_name: string | null;
     email: string | null;
 
 
@@ -16,6 +16,8 @@ interface User {
 
 const UserChats = () => {
     const { users, handleSelectedUser, addUsers, saveMessages } = useContext(ChatContext);
+    console.log(users);
+
     const logged_in_user_uuid = localStorage.getItem("user_uuid");
 
     useEffect(() => {
@@ -23,6 +25,8 @@ const UserChats = () => {
             try {
                 const getUsers = await axios.get<{ data: User[] }>(`${import.meta.env.VITE_BaseURL}getUsers`);
                 addUsers(getUsers.data.data);
+                console.log(getUsers);
+
             } catch (error) {
                 console.error("Error While Fetching Data", error);
             }
@@ -36,6 +40,8 @@ const UserChats = () => {
         handleSelectedUser(findUserName);
         socket.emit('joinChat', receiver_uuid, logged_in_user_uuid);
     };
+
+    // if (users && users.length === 0 && <p>No Users Found</p>)
 
     return (
         <>
@@ -51,7 +57,7 @@ const UserChats = () => {
                     key={eachUser.user_uuid}
                 >
                     <p>
-                        {eachUser.firstName} {eachUser.lastName}
+                        {eachUser.first_name} {eachUser.last_name}
                     </p>
                 </Grid2>
             ))}

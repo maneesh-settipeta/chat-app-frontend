@@ -53,8 +53,8 @@ const Login = () => {
 
             if (response.status === 202) {
                 addUser({
-                    firstName: response.data.data.first_name,
-                    lastName: response.data.data.last_name,
+                    first_name: response.data.data.first_name,
+                    last_name: response.data.data.last_name,
                     email: response.data.data.email,
                     user_uuid: response.data.data.user_uuid,
                 });
@@ -62,8 +62,8 @@ const Login = () => {
                     `${import.meta.env.VITE_BaseURL}getUsers`
                 );
                 addUsers(getUsersDetails.data.data.map(user => ({
-                    firstName: user.first_name,
-                    lastName: user.last_name,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
                     email: user.email,
                     user_uuid: user.user_uuid,
                 })));

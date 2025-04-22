@@ -18,15 +18,15 @@ export default function Header() {
 
   const handleLogout = () => {
     navigate('/login');
-    localStorage.removeItem("firstName");
-    localStorage.removeItem("lastName");
+    localStorage.removeItem("first_name");
+    localStorage.removeItem("last_name ");
     localStorage.removeItem("email");
     localStorage.removeItem("user_uuid");
   };
 
   useEffect(() => {
-    if (user.firstName && user.lastName) {
-      setFullName(`${user.firstName[0]}${user.lastName[0]}`); // Set initials from context
+    if (user.first_name && user.last_name) {
+      setFullName(`${user.first_name[0]}${user.last_name[0]}`); // Set initials from context
     }
   }, [user]);
 

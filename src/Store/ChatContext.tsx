@@ -2,8 +2,8 @@ import { createContext, useReducer, ReactNode } from "react";
 
 // Define types for the state and actions
 interface User {
-    firstName: string | null;
-    lastName: string | null;
+    first_name: string | null;
+    last_name: string | null;
     email: string | null;
     user_uuid: string | null;
 }
@@ -38,8 +38,8 @@ interface ChatContextType {
 // Create the context with proper typing
 export const ChatContext = createContext<ChatContextType>({
     user: {
-        firstName: null,
-        lastName: null,
+        first_name: null,
+        last_name: null,
         email: null,
         user_uuid: null,
     },
@@ -58,16 +58,16 @@ const handleStateAndData = (state: StateType, action: ActionType): StateType => 
     switch (action.type) {
         case "ADD-USER":
             if (action.userDetails) {
-                localStorage.setItem("firstName", action.userDetails.firstName || "");
-                localStorage.setItem("lastName", action.userDetails.lastName || "");
+                localStorage.setItem("first_name", action.userDetails.first_name || "");
+                localStorage.setItem("last_name ", action.userDetails.last_name || "");
                 localStorage.setItem("email", action.userDetails.email || "");
                 localStorage.setItem("user_uuid", action.userDetails.user_uuid || "");
             }
             return {
                 ...state,
                 user: {
-                    firstName: action.userDetails?.firstName || null,
-                    lastName: action.userDetails?.lastName || null,
+                    first_name: action.userDetails?.first_name || null,
+                    last_name: action.userDetails?.last_name || null,
                     email: action.userDetails?.email || null,
                     user_uuid: action.userDetails?.user_uuid || null,
                 },
@@ -104,8 +104,8 @@ interface ProjectContextProps {
 export function ProjectContext({ children }: ProjectContextProps) {
     const [projectState, projectDispatchFunction] = useReducer(handleStateAndData, {
         user: {
-            firstName: null,
-            lastName: null,
+            first_name: null,
+            last_name: null,
             email: null,
             user_uuid: null,
         },

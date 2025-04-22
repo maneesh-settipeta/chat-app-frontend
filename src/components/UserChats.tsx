@@ -4,14 +4,12 @@ import { Grid2 } from "@mui/material";
 import { socket } from '../../socket';
 import axios from "axios";
 
-interface User {
+type User = {
     id: string | null;
     user_uuid: string | null;
     first_name: string | null;
     last_name: string | null;
     email: string | null;
-
-
 }
 
 const UserChats = () => {
@@ -56,9 +54,7 @@ const UserChats = () => {
                     }}
                     key={eachUser.user_uuid}
                 >
-                    <p>
-                        {eachUser.first_name} {eachUser.last_name}
-                    </p>
+                    <p>{eachUser?.first_name} {eachUser?.last_name}</p>
                 </Grid2>
             ))}
         </>

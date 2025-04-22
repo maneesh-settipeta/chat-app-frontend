@@ -28,7 +28,7 @@ const SignUp = () => {
         try {
             const response = await axios.post<SignUpResponse>(
                 `${import.meta.env.VITE_BaseURL}signUp`,
-                { firstName: firstname, lastName: lastname, email: email, password: password }
+                { first_name: firstname, last_name: lastname, email: email, password: password }
             );
 
             if (response.status === 409) {
